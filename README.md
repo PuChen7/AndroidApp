@@ -8,6 +8,6 @@ All the apps are developed in [Android Studio](https://developer.android.com/stu
 This app implements a simple calculator for addition, subtraction, multiplication, division, and modulus.
 ### * What I learned from this project:
 * Layouts
-...I used **LinearLayout**(vertical) as the main structure. Each line of buttons are sub layouts(horizontal).
-...I learned how to use **layout_weight** to arrange different structures equally.
+  I used **LinearLayout**(vertical) as the main structure. Each line of buttons are sub layouts(horizontal).
+  I learned how to use **layout_weight** to arrange different structures equally.
 * Button
