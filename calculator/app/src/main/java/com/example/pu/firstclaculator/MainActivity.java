@@ -37,12 +37,41 @@ public class MainActivity extends AppCompatActivity {
         updateDisplay();
     }
 
-    public void onClickOperator(View view){
-        if (result != ""){
-            display = result;
-            result = "";
+    private boolean isOperator(char opChar) {
+        switch (opChar){
+            case '+':
+            case '-':
+            case '*':
+            case '/': return true;
+            default: return false;
         }
+    }
+
+    public void onClickOperator(View view){
+        if (display == ""){return;}
+
         Button button = (Button) view;
+
+        if (result != ""){
+            String tmpDisplay = result;
+            clear();
+            display = tmpDisplay;
+        }
+
+        if (operator != "") {
+            Log.d("Calcx", ""+display.charAt(display.length()-1));
+            if (isOperator(display.charAt(display.length()-1))){
+                display = display.replace(display.charAt(display.length()-1), button.getText().charAt(0));
+                updateDisplay();
+                return;
+            } else {
+                getResult();
+                display = result;
+                result = "";
+            }
+            operator = button.getText().toString();
+        }
+
         display += button.getText();
         operator = button.getText().toString();
         updateDisplay();
@@ -53,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         operator = "";
         result = "";
     }
+
 
     public void onClickClear(View view){
         clear();
@@ -84,16 +114,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getResult(String[] components){
-
+    private boolean getResult(){
+        if (operator == ""){
+            return false;
+        }
+        String[] components = display.split(Pattern.quote(operator));
+        if (components.length < 2){
+            return false;
+        }
+        result = String.valueOf(calculate(components[0], components[1], operator));
+        return true;
     }
 
     public void onClickEqual(View view) {
-        String[] components = display.split(Pattern.quote(operator));
-        if (components.length < 2){
-            return;
-        }
-        result = String.valueOf(calculate(components[0], components[1], operator));
+        if (display == ""){return;}
+        if (!getResult()){return;}
         screen.setText(display + "\n" + String.valueOf(result));
     }
 }
